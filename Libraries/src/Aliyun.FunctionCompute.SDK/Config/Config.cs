@@ -31,8 +31,6 @@ namespace Aliyun.FunctionCompute.SDK.Config
             this.SecurityToken = securityToken;
 
             this.UserAgent = "fc-dotnet-sdk-1.0.0";
-
-            Console.WriteLine(this.Endpoint);
         }
 
         public string AccessKeySecret { get ; set ; }

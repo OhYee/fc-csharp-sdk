@@ -6,7 +6,6 @@
     <RootNamespace>fc_exec_samples</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RestoreSources>$(RestoreSources);../foo/bin/Debug;https://api.nuget.org/v3/index.json</RestoreSources>
   </PropertyGroup>
 
   <!-- <ItemGroup>
@@ -14,7 +13,7 @@
   </ItemGroup> -->
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Libraries\src\Aliyun.FunctionCompute.SDK\Aliyun.FunctionCompute.SDK.csproj" />
+    <ProjectReference Include="../../Libraries/src/Aliyun.FunctionCompute.SDK/Aliyun.FunctionCompute.SDK.csproj" />
   </ItemGroup>
 
 </Project>

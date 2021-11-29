@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using RestSharp;
+using WebSocketSharp;
 using Aliyun.FunctionCompute.SDK.Request;
 using Aliyun.FunctionCompute.SDK.Config;
 using Aliyun.FunctionCompute.SDK.Response;
@@ -23,6 +24,12 @@ namespace Aliyun.FunctionCompute.SDK.Client
         public FCClient(string region, string uid, string accessKeyId, string accessKeySecret, string securityToken = "")
         {
             Config = new FCConfig(region, uid, accessKeyId, accessKeySecret, securityToken, false);
+            RestHttpClient = new RestClient(Config.Endpoint);
+        }
+
+        public void SetEndpoint(string endpoint)
+        {
+            this.Config.Endpoint = endpoint;
             RestHttpClient = new RestClient(Config.Endpoint);
         }
 
@@ -498,6 +505,27 @@ namespace Aliyun.FunctionCompute.SDK.Client
         public ListInstancesResponse ListInstances(ListInstancesRequest lisInstancesRequest)
         {
             return this.DoRequestCommon<ListInstancesResponse>(lisInstancesRequest.GenHttpRequest(Config));
+        }
+
+        /// <summary>
+        /// Lists the instances.
+        /// </summary>
+        /// <returns>The instances.</returns>
+        /// <param name="listFunctionsRequest">List instances request.</param>
+        public void InstanceExec(InstanceExecRequest instanceExecRequest)
+        {
+            var req = instanceExecRequest.GenHttpRequest(Config);
+            Console.WriteLine(req);
+
+            string webPath = "ws://127.0.0.1:8001";
+            WebSocket webSocket = new WebSocket(webPath);
+            webSocket.Connect();
+            webSocket.OnMessage += (sender, e) =>
+            {
+                Console.WriteLine(sender, e);
+                //接收到消息并处理
+            };
+            webSocket.Send("");
         }
 
         #endregion instance exec

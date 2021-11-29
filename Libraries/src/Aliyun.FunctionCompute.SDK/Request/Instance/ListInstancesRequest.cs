@@ -59,9 +59,6 @@ namespace Aliyun.FunctionCompute.SDK.Request
                 }
             }
 
-            Console.WriteLine(this.GetPath());
-            Console.WriteLine(this.Limit.ToString(), this.InstanceIds);
-
             return request;
         }
 

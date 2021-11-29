@@ -3,6 +3,7 @@ using Aliyun.FunctionCompute.SDK.Client;
 using Aliyun.FunctionCompute.SDK.Request;
 using Aliyun.FunctionCompute.SDK.Response;
 using Aliyun.FunctionCompute.SDK.model;
+using Aliyun.FunctionCompute.SDK.Constants;
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
@@ -29,10 +30,27 @@ namespace fc_csharp_sdk_samples
             Console.WriteLine(ACCOUNT_ID);
             Console.WriteLine(REGION);
             var fcClient = new FCClient(REGION, ACCOUNT_ID, ACCESS_KEY_ID, ACCESS_KEY_SECRET);
-            var req = fcClient.ListInstances(new ListInstancesRequest(serviceName, functionName, qualifier));
-            Console.WriteLine(req);
-            Console.WriteLine(req.Content);
+            fcClient.SetEndpoint("http://1011863232026330.dev-cluster-1.test.fc.aliyun-inc.com");
+            var resp = fcClient.ListInstances(new ListInstancesRequest(serviceName, functionName, qualifier));
+            Console.WriteLine(resp.Data);
+            
+            var insid = "";
+            if (resp.Data != null && resp.Data.Instances != null)
+            {
+                foreach (var instance in resp.Data.Instances)
+                {
+                    Console.WriteLine(instance.InstanceId, instance.VersionId);
+                    insid = instance.InstanceId;
+                }
+
+                if (insid != "")
+                {
+                    fcClient.InstanceExec(new InstanceExecRequest(serviceName, functionName, insid, new string[] { "/bin/bash" }));
+                }
+
+            }
         }
     }
 }
 
+// ttp://1011863232026330.dev-cluster-1.test.fc.aliyun-inc.com/2016-08-15/proxy/throttle/throttle1/
